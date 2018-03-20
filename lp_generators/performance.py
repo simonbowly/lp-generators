@@ -18,7 +18,8 @@ def clp_solve_file(file, method):
     regex = 'Optimal objective +([0-9e\-\.\+]+) +- +([0-9]+) +iterations +time +([0-9\.]+)'
     match = re.search(regex, stdout)
     if match is None:
-        print('\nBad model')
+        # There are iteration counts to check here.
+        # This occurs in infeasible/unbounded cases.
         return dict(objective=None, iterations=-1, time=-1)
     result = dict(
         objective=float(match.group(1)),
