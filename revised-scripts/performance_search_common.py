@@ -30,7 +30,7 @@ def _sample(rstate):
 
 def start_instance(rstate, perf_field):
     seed = min((_sample(rstate) for _ in range(200)), key=lambda d: objective(d, perf_field))['seed']
-    return read_tar_encoded(f'data/parameterised_random/inst_{seed}.tar')
+    return read_tar_encoded('data/parameterised_random/inst_{seed}.tar'.format(seed=seed))
 
 
 def calculate_features(instance):

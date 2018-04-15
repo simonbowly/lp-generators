@@ -27,4 +27,4 @@ def _sample(rstate):
 
 def start_instance(rstate):
     seed = min((_sample(rstate) for _ in range(20)), key=objective)['seed']
-    return read_tar_lp(f'data/naive_random/inst_{seed}.tar')
+    return read_tar_lp('data/naive_random/inst_{seed}.tar'.format(seed=seed))
