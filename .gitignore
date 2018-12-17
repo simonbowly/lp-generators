@@ -46,3 +46,6 @@ scripts/data/
 scripts/result_figures
 examples/generated/
 examples/search/
+
+# Notebooks
+.ipynb_checkpoints/

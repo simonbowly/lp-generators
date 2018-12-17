@@ -50,7 +50,9 @@ def generate(seed):
         lhs=generate_lhs(random_state=random_state, **size_params, **lhs_params).todense(),
         alpha=generate_alpha(random_state=random_state, **size_params, **alpha_params),
         beta=generate_beta(random_state=random_state, **size_params, **beta_params))
-    instance.data = dict(seed=seed)
+    instance.data = dict(seed=seed, params=dict(
+        size_params=size_params, beta_params=beta_params,
+        alpha_params=alpha_params, lhs_params=lhs_params))
     return instance
 
 
