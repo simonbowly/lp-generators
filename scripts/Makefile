@@ -1,46 +1,61 @@
 # Recreate exact experimental results using the seed information in seed_files/ directory.
 
-all: uniform varied_size naive encoded_frac encoded_mean naive_frac naive_mean primal_search dual_search barrier_search reopt_search
+all: naive parameterised \
+	naive_search parameterised_search \
+	naive_performance_search parameterised_performance_search
 
 clean:
 	rm -rf data/
 
-data/generate_uniform.json:
+data/naive_random.json:
 	@mkdir -p data
-	python generate_uniform.py --seed-file seed_files/uniform.json
+	python naive_random.py --system-seeds 3000
 
-data/generate_varied_size.json:
+data/parameterised_random.json:
 	@mkdir -p data
-	python generate_varied_size.py --seed-file seed_files/varied_size.json
+	python parameterised_random.py --system-seeds 1000
 
-data/generate_naive.json:
-	@mkdir -p data
-	python generate_naive.py --seed-file seed_files/naive.json
+data/naive_search.json: data/naive_random.json
+	python naive_search.py --system-seeds 100
 
-uniform: data/generate_uniform.json
-varied_size: data/generate_varied_size.json
-naive: data/generate_naive.json
+data/parameterised_search.json: data/naive_random.json
+	python parameterised_search.py --system-seeds 100
 
-encoded_frac: uniform
-	python search_feature.py --method encoded --space frac --seed-file seed_files/search_encoded_frac.json --steps 1000
+data/naive_performance_search_clp_dual_iterations.json: data/naive_random.json
+	python naive_performance_search.py --system-seeds 100 --perf-field clp_dual_iterations
 
-encoded_mean: uniform
-	python search_feature.py --method encoded --space mean --seed-file seed_files/search_encoded_mean.json --steps 1000
+data/naive_performance_search_clp_primal_iterations.json: data/naive_random.json
+	python naive_performance_search.py --system-seeds 100 --perf-field clp_primal_iterations
 
-naive_frac: naive
-	python search_feature.py --method direct  --space frac --seed-file seed_files/search_direct_frac.json  --steps 1000
+data/naive_performance_search_clp_barrier_iterations.json: data/naive_random.json
+	python naive_performance_search.py --system-seeds 100 --perf-field clp_barrier_iterations
 
-naive_mean: naive
-	python search_feature.py --method direct  --space mean --seed-file seed_files/search_direct_mean.json  --steps 1000
+data/naive_performance_search_clp_barrier_flops.json: data/naive_random.json
+	python naive_performance_search.py --system-seeds 100 --perf-field clp_barrier_flops
 
-primal_search: varied_size
-	python search_performance.py --metric primal  --seed-file seed_files/search_perform_primal.json  --steps 200
+data/parameterised_performance_search_clp_dual_iterations.json: data/naive_random.json
+	python parameterised_performance_search.py --system-seeds 100 --perf-field clp_dual_iterations
 
-dual_search: varied_size
-	python search_performance.py --metric dual    --seed-file seed_files/search_perform_dual.json    --steps 200
+data/parameterised_performance_search_clp_primal_iterations.json: data/naive_random.json
+	python parameterised_performance_search.py --system-seeds 100 --perf-field clp_primal_iterations
 
-barrier_search: varied_size
-	python search_performance.py --metric barrier --seed-file seed_files/search_perform_barrier.json --steps 200
+data/parameterised_performance_search_clp_barrier_iterations.json: data/naive_random.json
+	python parameterised_performance_search.py --system-seeds 100 --perf-field clp_barrier_iterations
 
-reopt_search: varied_size
-	python search_performance.py --metric reopt   --seed-file seed_files/search_perform_reopt.json   --steps 200
+data/parameterised_performance_search_clp_barrier_flops.json: data/naive_random.json
+	python parameterised_performance_search.py --system-seeds 100 --perf-field clp_barrier_flops
+
+naive: data/naive_random.json
+parameterised: data/parameterised_random.json
+naive_search: data/naive_search.json
+parameterised_search: data/parameterised_search.json
+naive_performance_search: \
+	data/naive_performance_search_clp_primal_iterations.json \
+	data/naive_performance_search_clp_dual_iterations.json \
+	data/naive_performance_search_clp_barrier_iterations.json \
+	data/naive_performance_search_clp_barrier_flops.json
+parameterised_performance_search: \
+	data/parameterised_performance_search_clp_primal_iterations.json \
+	data/parameterised_performance_search_clp_dual_iterations.json \
+	data/parameterised_performance_search_clp_barrier_iterations.json \
+	data/parameterised_performance_search_clp_barrier_flops.json
