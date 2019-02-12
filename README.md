@@ -31,15 +31,5 @@ The examples/ directory contains sample scripts for setting up generation and se
 # Running the Experiments
 
 Scripts to reproduce experimental results are contained in the scripts/ directory.
-
-Regenerate results using seed values stored in seed_files/ directory:
-
-    make
-
-Generate new results (with the same parameter distributions and search targets) using system random seeds:
-
-    make -f MakeRandom.make
-
-Generate figures from the result set:
-
-    python analysis.py
+To generate results using system random seeds, simply run `make` from this directory.
+Figures showing feature and performance distributions of the generated instance sets can be produced using the Jupyter notebook scripts/figures.ipynb
