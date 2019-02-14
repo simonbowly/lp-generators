@@ -31,5 +31,5 @@ The examples/ directory contains sample scripts for setting up generation and se
 # Running the Experiments
 
 Scripts to reproduce experimental results are contained in the scripts/ directory.
-To generate results using system random seeds, simply run `make` from this directory.
-Figures showing feature and performance distributions of the generated instance sets can be produced using the Jupyter notebook scripts/figures.ipynb
+To generate results using system random seeds, run `make` from this directory.
+Figures showing feature and performance distributions of the generated instance sets can be produced using the Jupyter notebook `scripts/figures.ipynb`.
