@@ -189,11 +189,25 @@ void LP::writeMps(string fileName) {
 
 
 void LP::writeMpsIP(string fileName) {
-    // Generate a COIN model for writing to MPS file.
+    // Write the problem with all variables set as integer.
     OsiClpSolverInterface* model;
     model = getOsiClpModel();
     for (int i = 0; i < numVariables; i++) {
         model->setInteger(i);
+    }
+    model->writeMps(fileName.c_str(), "", 0.0);
+    delete model;
+}
+
+
+void LP::writeMpsMIP(string fileName, string vtypes) {
+    // Write the problem with variables assigned the given types.
+    OsiClpSolverInterface* model;
+    model = getOsiClpModel();
+    for (int i = 0; i < numVariables; i++) {
+        if (vtypes[i] == 'I') {
+            model->setInteger(i);
+        }
     }
     model->writeMps(fileName.c_str(), "", 0.0);
     delete model;

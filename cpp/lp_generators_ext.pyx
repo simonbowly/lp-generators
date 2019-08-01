@@ -13,6 +13,7 @@ cdef extern from "lp.hpp":
         void constructDenseCanonical(int, int, double*, double*, double*)
         void writeMps(string)
         void writeMpsIP(string)
+        void writeMpsMIP(string, string)
         int getNumVariables()
         int getNumConstraints()
         int getNumLHSElements()
@@ -51,6 +52,12 @@ cdef class LPCy(object):
     def write_mps_ip(self, file_name):
         cdef string strfilename = file_name.encode('UTF-8')
         deref(self.wrapped).writeMpsIP(strfilename)
+
+    def write_mps_mip(self, file_name, vtypes):
+        assert len(vtypes) == deref(self.wrapped).getNumVariables()
+        cdef string strfilename = file_name.encode('UTF-8')
+        cdef string strvtypes = vtypes.encode("UTF-8")
+        deref(self.wrapped).writeMpsMIP(strfilename, strvtypes)
 
     def get_dense_lhs(self):
         variables = deref(self.wrapped).getNumVariables()

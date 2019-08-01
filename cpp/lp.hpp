@@ -30,6 +30,7 @@ class LP {
     // Model writers
     void writeMps(string fileName);
     void writeMpsIP(string fileName);
+    void writeMpsMIP(string fileName, string vtypes);
 
     // Property accessors
     int getNumVariables() { return numVariables; }

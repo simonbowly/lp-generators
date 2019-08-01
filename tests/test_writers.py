@@ -5,7 +5,7 @@ import pytest
 
 from lp_generators.instance import EncodedInstance, UnsolvedInstance
 from lp_generators.writers import (
-    write_mps, write_mps_ip,
+    write_mps, write_mps_ip, write_mps_mip,
     write_tar_encoded, read_tar_encoded,
     write_tar_lp, read_tar_lp)
 from lp_generators.utils import temp_file_path
@@ -27,6 +27,15 @@ def test_write_mps(instance):
 def test_write_mps_ip(instance):
     with temp_file_path('.mps.gz') as file_path:
         write_mps_ip(instance, file_path)
+        assert os.path.exists(file_path)
+
+
+@pytest.mark.parametrize('instance,vtypes', [
+    (random_encoded(3, 5), "ICI"),
+    (random_encoded(5, 3), "IIIIC")])
+def test_write_mps_mip(instance, vtypes):
+    with temp_file_path('.mps.gz') as file_path:
+        write_mps_mip(instance, file_path, vtypes)
         assert os.path.exists(file_path)
 
 

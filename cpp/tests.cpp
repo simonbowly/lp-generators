@@ -97,6 +97,7 @@ TEST(LPTest, Write) {
     // Write to file
     lp.writeMps("cpp_test_lp.mps.gz");
     lp.writeMpsIP("cpp_test_ip.mps.gz");
+    lp.writeMpsMIP("cpp_test_mip.mps.gz", "IC");
 
 }
 

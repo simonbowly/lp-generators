@@ -33,6 +33,17 @@ def write_mps_ip(instance, file_name):
     writer.write_mps_ip(file_name)
 
 
+def write_mps_mip(instance, file_name, vtypes):
+    ''' Write an LP instance to MPS format (using A, b, c). '''
+    writer = LPCy()
+    writer.construct_dense_canonical(
+        instance.variables, instance.constraints,
+        np.asarray(instance.lhs()),
+        np.asarray(instance.rhs()),
+        np.asarray(instance.objective()))
+    writer.write_mps_mip(file_name, vtypes)
+
+
 def save_matrix_to_tar(tarstore, matrix, name):
     ''' Helper function encodes matrix to bytes with numpy and adds to tarball. '''
     fp = io.BytesIO()
